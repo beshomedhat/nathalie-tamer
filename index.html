@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nathalie Tamer — Film Director</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Tenor+Sans&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #080808;
+  --bg2:     #0e0e0e;
+  --bg3:     #131313;
+  --white:   #f0ece4;
+  --off:     #b8b0a0;
+  --amber:   #e8607a;
+  --amber2:  #f07d92;
+  --dim:     #555048;
+  --border:  rgba(232,96,122,0.14);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:'Tenor Sans',sans-serif;
+  cursor:none;
+  overflow-x:hidden;
+}
+
+/* ── GRAIN ── */
+.grain{
+  position:fixed;inset:0;z-index:8000;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.055'/%3E%3C/svg%3E");
+  animation:grainShift 0.12s steps(1) infinite;
+}
+@keyframes grainShift{
+  0%{transform:translate(0,0)}20%{transform:translate(-2px,1px)}
+  40%{transform:translate(2px,-1px)}60%{transform:translate(-1px,2px)}
+  80%{transform:translate(1px,-2px)}100%{transform:translate(0,0)}
+}
+
+/* ── CURSOR ── */
+.cursor{width:8px;height:8px;background:var(--amber);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+.cursor-ring{width:32px;height:32px;border:1px solid rgba(232,96,122,.5);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+@media(hover:none){.cursor,.cursor-ring{display:none}body{cursor:auto}}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  padding:2rem 4rem;
+  display:flex;justify-content:space-between;align-items:center;
+  transition:all .5s ease;
+}
+nav.scrolled{
+  background:rgba(8,8,8,.94);
+  backdrop-filter:blur(16px);
+  padding:1.1rem 4rem;
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;letter-spacing:.08em;
+  color:var(--white);text-decoration:none;
+  font-style:italic;
+}
+.nav-logo span{color:var(--amber);font-style:normal}
+.nav-links{display:flex;gap:3rem;list-style:none}
+.nav-links a{
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--off);text-decoration:none;opacity:.7;
+  transition:opacity .3s,color .3s;
+  position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-3px;left:0;right:0;
+  height:1px;background:var(--amber);
+  transform:scaleX(0);transition:transform .3s;
+}
+.nav-links a:hover{opacity:1;color:var(--white)}
+.nav-links a:hover::after{transform:scaleX(1)}
+
+.hamburger{display:none;flex-direction:column;gap:6px;background:none;border:none;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:22px;height:1px;background:var(--white);transition:all .3s}
+
+.mobile-menu{
+  display:none;position:fixed;inset:0;
+  background:var(--bg);z-index:600;
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:2.5rem;opacity:0;transition:opacity .4s;
+}
+.mobile-menu.open{display:flex;opacity:1}
+.mobile-menu a{
+  font-family:'Playfair Display',serif;
+  font-size:2.8rem;letter-spacing:.04em;
+  color:var(--white);text-decoration:none;transition:color .3s;
+}
+.mobile-menu a:hover{color:var(--amber)}
+.close-menu{position:absolute;top:1.8rem;right:2.5rem;font-size:1.8rem;color:var(--off);background:none;border:none;cursor:pointer;font-family:'Tenor Sans',sans-serif}
+
+/* ══════════════════════════════
+   HERO — animated typography
+══════════════════════════════ */
+#hero{
+  height:100vh;
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:flex-start;
+  padding:0 4rem;
+  position:relative;overflow:hidden;
+}
+
+/* animated scan line */
+.scan-line{
+  position:absolute;top:0;left:0;right:0;
+  height:2px;background:linear-gradient(90deg,transparent,rgba(232,96,122,.3),transparent);
+  animation:scanDown 4s linear infinite;
+  z-index:2;pointer-events:none;
+}
+@keyframes scanDown{from{top:0}to{top:100%}}
+
+/* vignette */
+#hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,transparent 30%,rgba(8,8,8,.85) 100%);
+  z-index:1;pointer-events:none;
+}
+
+/* left film perforations */
+.perfs{
+  position:absolute;left:0;top:0;bottom:0;width:36px;
+  display:flex;flex-direction:column;justify-content:space-around;
+  padding:1rem 0;z-index:2;opacity:.08;
+}
+.perf{width:20px;height:14px;border:1.5px solid var(--white);border-radius:2px;margin:0 auto}
+
+/* right perforations */
+.perfs-r{right:0;left:auto}
+
+.hero-inner{position:relative;z-index:3;max-width:900px}
+
+.hero-pre{
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:2rem;
+  opacity:0;animation:slideRight .8s .2s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+/* BIG STACKED NAME */
+.hero-name{
+  display:flex;flex-direction:column;gap:0;
+  margin-bottom:2.5rem;
+}
+.name-line{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(5rem,13vw,13rem);
+  line-height:.88;font-weight:900;
+  letter-spacing:-.02em;
+  overflow:hidden;
+}
+.name-line span{
+  display:block;
+  opacity:0;
+  animation:revealUp .9s cubic-bezier(.16,1,.3,1) forwards;
+}
+.name-line:nth-child(1) span{animation-delay:.3s}
+.name-line:nth-child(2) span{
+  animation-delay:.5s;
+  -webkit-text-stroke:1.5px var(--white);
+  color:transparent;
+}
+
+.hero-role{
+  display:flex;align-items:center;gap:1.5rem;
+  opacity:0;animation:slideRight .8s .8s cubic-bezier(.16,1,.3,1) forwards;
+}
+.role-line{width:40px;height:1px;background:var(--amber)}
+.role-text{
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--off);
+}
+
+.hero-scroll-hint{
+  position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.6rem;
+  z-index:3;opacity:0;animation:fadeIn 1s 1.2s forwards;
+}
+.scroll-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--amber);
+  animation:bounce 2s ease-in-out infinite;
+}
+.scroll-label{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:var(--dim)}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* ── TICKER ── */
+.ticker-wrap{
+  overflow:hidden;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:.7rem 0;
+  background:rgba(232,96,122,.03);
+}
+.ticker-track{display:flex;gap:0;white-space:nowrap;animation:ticker 28s linear infinite}
+.tick{
+  font-family:'DM Mono',monospace;font-size:.6rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--amber);opacity:.6;flex-shrink:0;
+  padding:0 2rem;
+}
+.tick::before{content:'◆';margin-right:1.5rem;font-size:.35rem;vertical-align:middle}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── SHARED SECTION LABELS ── */
+.sec-label{
+  font-family:'DM Mono',monospace;font-size:.6rem;
+  letter-spacing:.3em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:1rem;
+}
+.sec-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.8rem,6vw,5.5rem);
+  font-weight:700;line-height:1;letter-spacing:-.01em;
+}
+
+/* ── ABOUT — old CSS removed, replaced above ── */
+
+/* ── ABOUT — REDESIGNED ── */
+#about{
+  padding:0;max-width:none;margin:0;
+  display:block;
+  position:relative;
+  overflow:hidden;
+}
+
+/* big ghost text behind */
+.about-ghost{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-family:'Playfair Display',serif;
+  font-size:clamp(8rem,18vw,22rem);
+  font-weight:900;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(232,96,122,.06);
+  white-space:nowrap;
+  pointer-events:none;
+  user-select:none;
+  z-index:0;
+  letter-spacing:-.02em;
+}
+
+/* top strip — full width label bar */
+.about-topbar{
+  border-top:1px solid rgba(255,255,255,.05);
+  border-bottom:1px solid rgba(255,255,255,.05);
+  padding:.7rem 4rem;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(232,96,122,.03);
+  position:relative;z-index:1;
+}
+.about-topbar-label{
+  font-family:'DM Mono',monospace;font-size:.58rem;
+  letter-spacing:.32em;text-transform:uppercase;color:var(--amber);
+}
+.about-topbar-line{
+  flex:1;height:1px;background:rgba(232,96,122,.15);margin:0 2rem;
+}
+.about-topbar-num{
+  font-family:'Playfair Display',serif;
+  font-size:.9rem;color:rgba(255,255,255,.12);font-style:italic;
+}
+
+/* main grid */
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1px 1fr 1px 1fr;
+  min-height:520px;
+  position:relative;z-index:1;
+}
+.about-divider{background:rgba(255,255,255,.05)}
+
+/* column shared */
+.about-col{
+  padding:4rem;
+  display:flex;flex-direction:column;justify-content:center;
+  position:relative;
+}
+
+/* col 1 — big headline */
+.about-col-1{background:var(--bg);justify-content:flex-end;padding-bottom:3.5rem}
+.about-headline{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.4rem,4.5vw,4rem);
+  font-weight:900;line-height:1.05;
+  letter-spacing:-.02em;
+}
+.about-headline .pink{color:var(--amber)}
+.about-headline .stroke-word{
+  -webkit-text-stroke:1px var(--white);
+  color:transparent;
+  display:block;
+}
+.about-tagline{
+  margin-top:1.5rem;
+  font-size:1rem;font-style:italic;
+  color:var(--off);line-height:1.7;
+  border-left:2px solid var(--amber);
+  padding-left:1rem;
+}
+
+/* col 2 — story text */
+.about-col-2{background:var(--bg2);gap:2rem}
+.about-story{
+  font-size:1rem;line-height:2;color:var(--off);font-weight:300;
+}
+.about-story+.about-story{
+  padding-top:1.5rem;
+  border-top:1px solid rgba(255,255,255,.05);
+}
+
+/* col 3 — stats + skills */
+.about-col-3{background:var(--bg);gap:0;padding:0}
+.about-stat-row{
+  flex:1;display:flex;flex-direction:column;
+  justify-content:center;
+  padding:2.5rem 3rem;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  position:relative;overflow:hidden;
+  transition:background .3s;
+}
+.about-stat-row:last-child{border-bottom:none}
+.about-stat-row:hover{background:rgba(232,96,122,.04)}
+.about-stat-row::after{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:var(--amber);transform:scaleX(0);transform-origin:left;
+  transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+.about-stat-row:hover::after{transform:scaleX(1)}
+.asr-num{
+  font-family:'Playfair Display',serif;
+  font-size:3rem;font-weight:900;line-height:1;
+  color:var(--amber);
+}
+.asr-label{
+  font-family:'DM Mono',monospace;font-size:.55rem;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:var(--dim);margin-top:.4rem;
+}
+.asr-sub{
+  font-size:.85rem;color:rgba(176,168,160,.5);
+  margin-top:.2rem;font-style:italic;
+}
+
+/* bottom strip — credentials */
+.about-bottombar{
+  border-top:1px solid rgba(255,255,255,.05);
+  display:grid;grid-template-columns:1fr 1px 1fr;
+  position:relative;z-index:1;
+}
+.about-cred{
+  padding:2rem 4rem;
+  display:flex;align-items:center;gap:1.5rem;
+  transition:background .3s;
+}
+.about-cred:hover{background:rgba(232,96,122,.03)}
+.about-cred-icon{
+  width:40px;height:40px;border-radius:50%;
+  border:1px solid rgba(232,96,122,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;
+}
+.about-cred-text{}
+.about-cred-tag{
+  font-family:'DM Mono',monospace;font-size:.52rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:.3rem;
+}
+.about-cred-title{font-size:.9rem;color:var(--white);line-height:1.4}
+.about-cred-sub{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.1em;color:var(--dim);margin-top:.2rem}
+.about-cred-div{background:rgba(255,255,255,.05)}
+
+@media(max-width:960px){
+  .about-topbar{padding:.7rem 2rem}
+  .about-grid{grid-template-columns:1fr;min-height:auto}
+  .about-divider{display:none}
+  .about-col{padding:3rem 2rem}
+  .about-col-3{flex-direction:column}
+  .about-stat-row{padding:2rem}
+  .about-bottombar{grid-template-columns:1fr}
+  .about-cred-div{display:none}
+  .about-cred{padding:1.5rem 2rem;border-bottom:1px solid rgba(255,255,255,.05)}
+  .about-ghost{display:none}
+}
+
+/* ── FILMOGRAPHY ── */
+#works{
+  padding:7rem 4rem;
+  background:var(--bg2);
+  border-top:1px solid rgba(255,255,255,.04);
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.works-inner{max-width:1100px;margin:0 auto}
+.works-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:4rem}
+.works-count{font-family:'Playfair Display',serif;font-size:5rem;color:rgba(255,255,255,.03);font-weight:900;line-height:1}
+
+.film-list{display:flex;flex-direction:column}
+.film-row{
+  display:grid;grid-template-columns:44px 1fr max-content;
+  gap:2rem;align-items:center;
+  padding:1.8rem 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  position:relative;cursor:default;
+}
+.film-row::after{
+  content:'';position:absolute;left:-4rem;right:-4rem;top:0;bottom:0;
+  background:rgba(232,96,122,.03);opacity:0;transition:opacity .3s;
+}
+.film-row:hover::after{opacity:1}
+.film-row:hover .film-title{color:var(--amber)}
+.film-num{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--dim);letter-spacing:.08em;position:relative;z-index:1}
+.film-info{position:relative;z-index:1}
+.film-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.3rem,2.8vw,2rem);
+  font-weight:400;margin-bottom:.4rem;transition:color .3s;
+}
+.film-title em{font-size:.65em;color:var(--dim);font-style:italic}
+.film-meta{display:flex;gap:1.5rem;flex-wrap:wrap}
+.film-meta span{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.film-badge{position:relative;z-index:1}
+.badge-pill{
+  display:inline-block;padding:.28rem .9rem;
+  font-family:'DM Mono',monospace;font-size:.55rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  border:1px solid currentColor;
+}
+.b-dir  {color:var(--amber);     border-color:rgba(232,96,122,.4)}
+.b-codir{color:#8ecfda;          border-color:rgba(142,207,218,.35)}
+.b-ad   {color:var(--off);       border-color:rgba(184,176,160,.28)}
+.b-tr   {color:var(--dim);       border-color:rgba(85,80,72,.4)}
+
+/* ── GALLERY ── */
+#gallery{padding:7rem 4rem;max-width:1400px;margin:0 auto}
+.gallery-header{margin-bottom:4rem}
+
+.proj-block{margin-bottom:5rem}
+.proj-head{
+  display:flex;align-items:baseline;gap:1.2rem;flex-wrap:wrap;
+  padding-bottom:.9rem;margin-bottom:1.2rem;
+  border-bottom:1px solid var(--border);
+}
+.proj-name{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.5rem,3.5vw,2.5rem);
+  font-weight:700;color:var(--white);
+}
+.proj-tag{font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;padding:.22rem .7rem;border:1px solid currentColor}
+.proj-info{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+
+.ig{display:grid;gap:.7rem}
+.c1{grid-template-columns:1fr}
+.c2{grid-template-columns:1fr 1fr}
+.c3{grid-template-columns:1fr 1fr 1fr}
+.c4{grid-template-columns:1fr 1fr 1fr 1fr}
+.c7-5{grid-template-columns:7fr 5fr}
+.c5-7{grid-template-columns:5fr 7fr}
+.mt{margin-top:.7rem}
+.span2{grid-column:span 2}
+
+.gi{overflow:hidden;position:relative;background:var(--bg3)}
+.gi img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  filter:grayscale(15%) contrast(1.05);
+  transition:transform .7s cubic-bezier(.25,.46,.45,.94),filter .4s;
+}
+.gi:hover img{transform:scale(1.05);filter:grayscale(0%) contrast(1.1)}
+.gi-cap{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:.65rem .9rem;
+  background:linear-gradient(transparent,rgba(8,8,8,.88));
+  font-family:'DM Mono',monospace;font-size:.5rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--off);opacity:0;transition:opacity .3s;
+}
+.gi:hover .gi-cap{opacity:1}
+
+/* aspect ratios */
+.r16-10{aspect-ratio:16/10}
+.r16-9 {aspect-ratio:16/9}
+.r4-3  {aspect-ratio:4/3}
+.r1-1  {aspect-ratio:1}
+.r21-9 {aspect-ratio:21/9}
+
+/* ── GRADUATION CARD ── */
+.grad-card {
+  display:grid;grid-template-columns:320px 1fr;gap:0;
+  border:1px solid rgba(232,96,122,.15);
+  background:var(--bg2);overflow:hidden;
+  transition:border-color .4s;
+}
+.grad-card:hover{border-color:rgba(232,96,122,.4)}
+.grad-photo-wrap{
+  position:relative;overflow:hidden;
+  background:#0a0a0a;
+}
+.grad-photo-wrap img{
+  width:100%;height:100%;object-fit:cover;
+  filter:grayscale(20%) contrast(1.05);
+  transition:transform .7s cubic-bezier(.25,.46,.45,.94),filter .4s;
+  display:block;
+}
+.grad-card:hover .grad-photo-wrap img{transform:scale(1.04);filter:grayscale(0%)}
+.grad-photo-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to right,transparent 70%,var(--bg2) 100%);
+  pointer-events:none;
+}
+.grad-info{
+  padding:3rem 3rem 3rem 2.5rem;
+  display:flex;flex-direction:column;justify-content:center;gap:1.8rem;
+}
+.grad-year{
+  font-family:'Playfair Display',serif;
+  font-size:6rem;font-weight:900;line-height:1;
+  color:rgba(232,96,122,.08);
+  position:absolute;top:1rem;right:2rem;
+  pointer-events:none;
+}
+.grad-info-inner{position:relative}
+.grad-tag{
+  font-family:'DM Mono',monospace;font-size:.55rem;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:1rem;display:block;
+}
+.grad-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.9rem;font-weight:700;line-height:1.2;
+  margin-bottom:.6rem;
+}
+.grad-sub{
+  font-size:1rem;color:var(--off);line-height:1.6;
+  font-style:italic;
+}
+.grad-details{
+  display:flex;flex-direction:column;gap:.7rem;
+  border-top:1px solid rgba(255,255,255,.06);
+  padding-top:1.5rem;
+}
+.grad-detail-row{
+  display:flex;gap:1rem;align-items:baseline;
+}
+.grad-detail-label{
+  font-family:'DM Mono',monospace;font-size:.52rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--amber);min-width:60px;flex-shrink:0;
+}
+.grad-detail-val{font-size:.9rem;color:var(--off)}
+
+/* film strip edge on grad photo */
+.grad-strip{
+  position:absolute;left:0;top:0;bottom:0;width:18px;
+  background:var(--bg);
+  display:flex;flex-direction:column;justify-content:space-around;padding:.5rem 0;
+  z-index:2;
+}
+.grad-perf{width:10px;height:7px;border:1px solid rgba(255,255,255,.12);border-radius:1px;margin:0 auto}
+
+/* ── SCHOLARSHIP CARD ── */
+.schol-card{
+  display:grid;grid-template-columns:1fr 260px;gap:0;
+  border:1px solid rgba(232,96,122,.15);
+  background:var(--bg2);overflow:hidden;
+  position:relative;
+  transition:border-color .4s;
+}
+.schol-card:hover{border-color:rgba(232,96,122,.4)}
+.schol-card::before{
+  content:'';position:absolute;top:0;left:0;bottom:0;width:3px;
+  background:linear-gradient(to bottom,var(--amber),transparent);
+}
+.schol-info{
+  padding:3rem 3rem 3rem 3.5rem;
+  display:flex;flex-direction:column;justify-content:center;gap:1.5rem;
+  position:relative;
+}
+.schol-badge{
+  display:inline-flex;align-items:center;gap:.7rem;
+  background:rgba(232,96,122,.07);
+  border:1px solid rgba(232,96,122,.2);
+  padding:.4rem 1rem;
+  width:fit-content;
+}
+.schol-badge span{
+  font-family:'DM Mono',monospace;font-size:.52rem;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--amber);
+}
+.schol-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--amber);flex-shrink:0}
+.schol-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.75rem;font-weight:700;line-height:1.25;
+}
+.schol-desc{
+  font-size:.95rem;line-height:1.8;color:var(--off);
+  font-weight:300;max-width:480px;
+}
+.schol-orgs{
+  display:flex;gap:1rem;flex-wrap:wrap;
+  border-top:1px solid rgba(255,255,255,.06);
+  padding-top:1.2rem;
+}
+.schol-org-pill{
+  font-family:'DM Mono',monospace;font-size:.52rem;
+  letter-spacing:.15em;text-transform:uppercase;
+  padding:.28rem .75rem;
+  border:1px solid rgba(255,255,255,.1);
+  color:var(--off);
+}
+.schol-photo-wrap{
+  position:relative;overflow:hidden;background:#0a0a0a;
+}
+.schol-photo-wrap img{
+  width:100%;height:100%;object-fit:cover;object-position:center top;
+  filter:grayscale(25%) contrast(1.05);
+  transition:transform .7s cubic-bezier(.25,.46,.45,.94),filter .4s;
+  display:block;
+}
+.schol-card:hover .schol-photo-wrap img{transform:scale(1.04);filter:grayscale(0%)}
+.schol-photo-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to left,transparent 60%,var(--bg2) 100%);
+  pointer-events:none;
+}
+.schol-year-tag{
+  position:absolute;bottom:1.2rem;right:1rem;
+  font-family:'DM Mono',monospace;font-size:.5rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.3);
+  writing-mode:vertical-rl;
+}
+
+@media(max-width:960px){
+  .grad-card{grid-template-columns:1fr}
+  .grad-photo-wrap{height:260px}
+  .grad-photo-overlay{background:linear-gradient(to top,var(--bg2) 0%,transparent 60%)}
+  .grad-year{font-size:4rem}
+  .grad-info{padding:2rem 1.5rem}
+  .schol-card{grid-template-columns:1fr}
+  .schol-photo-wrap{height:220px}
+  .schol-photo-overlay{background:linear-gradient(to top,var(--bg2) 0%,transparent 60%)}
+  .schol-info{padding:2rem 1.5rem 2rem 2rem}
+}
+
+.gallery-ig-link{
+  text-align:center;margin-top:2.5rem;
+  font-family:'DM Mono',monospace;font-size:.58rem;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--dim);
+}
+.gallery-ig-link a{color:var(--amber);text-decoration:none;border-bottom:1px solid rgba(232,96,122,.3);padding-bottom:1px;transition:border-color .3s}
+.gallery-ig-link a:hover{border-color:var(--amber)}
+
+/* ── MILESTONES ── */
+#achievements{
+  padding:7rem 4rem;
+  background:var(--bg2);
+  border-top:1px solid rgba(255,255,255,.04);
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.ach-inner{max-width:1100px;margin:0 auto}
+.ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;margin-top:4rem;background:rgba(255,255,255,.04)}
+.ach-cell{
+  padding:3rem 2.5rem;background:var(--bg2);
+  position:relative;overflow:hidden;transition:background .3s;
+}
+.ach-cell:hover{background:var(--bg3)}
+.ach-cell::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:2px;background:var(--amber);transform:scaleX(0);transition:transform .4s;
+}
+.ach-cell:hover::before{transform:scaleX(1)}
+.ach-icon{font-size:1.8rem;margin-bottom:1.8rem;display:block}
+.ach-title{font-family:'Playfair Display',serif;font-size:1.25rem;margin-bottom:.5rem;font-weight:400}
+.ach-org{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:1.2rem}
+.ach-desc{font-size:.95rem;line-height:1.85;color:var(--dim);font-weight:300}
+
+/* ── CONTACT ── */
+#contact{padding:9rem 4rem;max-width:900px;margin:0 auto;text-align:center}
+.contact-pre{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.32em;text-transform:uppercase;color:var(--amber);margin-bottom:2rem}
+.contact-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3.5rem,10vw,9rem);
+  font-weight:900;line-height:.88;margin-bottom:2.5rem;letter-spacing:-.02em;
+}
+.contact-title .stroke{-webkit-text-stroke:1.5px var(--white);color:transparent}
+.contact-sub{
+  font-size:1.1rem;font-style:italic;color:var(--off);
+  max-width:460px;margin:0 auto 3.5rem;line-height:1.7;
+}
+
+.c-btns{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:3.5rem}
+.c-btn{
+  display:flex;align-items:center;justify-content:center;gap:.9rem;
+  padding:1.7rem;text-decoration:none;
+  font-family:'DM Mono',monospace;font-size:.65rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  position:relative;overflow:hidden;transition:color .35s;
+}
+.c-btn::before{content:'';position:absolute;inset:0;transform:translateY(100%);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.c-btn:hover::before{transform:translateY(0)}
+.c-btn span,.c-btn svg{position:relative;z-index:1}
+.c-email{border:1px solid rgba(232,96,122,.4);color:var(--amber)}
+.c-email::before{background:var(--amber)}
+.c-email:hover{color:var(--bg)}
+.c-ig{border:1px solid rgba(240,236,228,.15);color:var(--off)}
+.c-ig::before{background:rgba(240,236,228,.08)}
+.c-ig:hover{color:var(--white);border-color:rgba(240,236,228,.4)}
+
+.c-divider{display:flex;align-items:center;gap:1rem;margin-bottom:1.8rem}
+.c-divider::before,.c-divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.05)}
+.c-divider span{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.c-for{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);line-height:2.4}
+
+/* ── FOOTER ── */
+footer{
+  padding:2.5rem 4rem;
+  border-top:1px solid rgba(255,255,255,.05);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
+}
+.f-logo{font-family:'Playfair Display',serif;font-size:1rem;color:var(--amber);letter-spacing:.06em;font-style:italic}
+.f-links{display:flex;gap:2.5rem;list-style:none}
+.f-links a{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .3s}
+.f-links a:hover{color:var(--amber)}
+.f-copy{font-family:'DM Mono',monospace;font-size:.5rem;color:rgba(85,80,72,.5);letter-spacing:.1em}
+
+/* ── ANIMATIONS ── */
+@keyframes revealUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideRight{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .9s ease,transform .9s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  nav{padding:1.3rem 2rem}
+  nav.scrolled{padding:.9rem 2rem}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  #hero{padding:0 2rem}
+  #about{grid-template-columns:1fr;gap:4rem;padding:6rem 2rem}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  #works{padding:5rem 2rem}
+  .works-header{flex-direction:column;align-items:flex-start;gap:0}.works-count{display:none}
+  .film-row{grid-template-columns:36px 1fr;gap:1rem}.film-badge{display:none}
+  #gallery{padding:5rem 2rem}
+  .c2,.c3,.c4,.c7-5,.c5-7{grid-template-columns:1fr}
+  .c2{grid-template-columns:1fr 1fr}
+  .span2{grid-column:span 1}
+  #achievements{padding:5rem 2rem}.ach-grid{grid-template-columns:1fr}
+  #contact{padding:6rem 2rem}.c-btns{grid-template-columns:1fr}
+  footer{padding:2rem;flex-direction:column;text-align:center}.f-links{justify-content:center}
+}
+@media(max-width:600px){
+  .name-line{font-size:clamp(3.5rem,18vw,5.5rem)}
+  .c2{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="curRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">Nathalie <span>Tamer</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#works">Filmography</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#achievements">Milestones</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mob">
+  <button class="close-menu" id="closeM">✕</button>
+  <a href="#about"        class="ml">About</a>
+  <a href="#works"        class="ml">Filmography</a>
+  <a href="#gallery"      class="ml">Gallery</a>
+  <a href="#achievements" class="ml">Milestones</a>
+  <a href="#contact"      class="ml">Contact</a>
+</div>
+
+<!-- ══════════════════════════════════════
+     HERO — pure animated typography
+══════════════════════════════════════ -->
+<section id="hero">
+  <div class="scan-line"></div>
+  <div class="perfs" id="perfL"></div>
+  <div class="perfs perfs-r" id="perfR"></div>
+
+  <div class="hero-inner">
+    <p class="hero-pre">Cairo, Egypt &nbsp;·&nbsp; Film Director &nbsp;·&nbsp; 2023 —</p>
+
+    <div class="hero-name">
+      <div class="name-line"><span>NATHALIE</span></div>
+      <div class="name-line"><span>TAMER</span></div>
+    </div>
+
+    <div class="hero-role">
+      <div class="role-line"></div>
+      <span class="role-text">Newborn Egyptian Director &nbsp;·&nbsp; Telling stories that touch the heart</span>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <div class="scroll-dot"></div>
+    <span class="scroll-label">Scroll</span>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="tick">Film Director</span><span class="tick">Storyteller</span>
+    <span class="tick">Filmmaker</span><span class="tick">Cinema</span>
+    <span class="tick">Movies</span><span class="tick">Cairo Egypt</span>
+    <!-- duplicate for seamless -->
+    <span class="tick">Film Director</span><span class="tick">Storyteller</span>
+    <span class="tick">Filmmaker</span><span class="tick">Cinema</span>
+    <span class="tick">Movies</span><span class="tick">Cairo Egypt</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     ABOUT
+══════════════════════════════════════ -->
+<section id="about">
+
+  <div class="about-ghost">DIRECTOR</div>
+
+  <!-- top label bar -->
+  <div class="about-topbar reveal">
+    <span class="about-topbar-label">The Director</span>
+    <div class="about-topbar-line"></div>
+    <span class="about-topbar-num">§ 01</span>
+  </div>
+
+  <!-- three-column grid -->
+  <div class="about-grid">
+
+    <!-- col 1: headline -->
+    <div class="about-col about-col-1 reveal">
+      <h2 class="about-headline">
+        A newborn<br>
+        <span class="pink">voice</span><br>
+        <span class="stroke-word">shaping</span>
+        cinema.
+      </h2>
+      <p class="about-tagline">
+        Telling stories that touch the heart — one frame at a time.
+      </p>
+    </div>
+
+    <div class="about-divider"></div>
+
+    <!-- col 2: story -->
+    <div class="about-col about-col-2 reveal reveal-delay-1">
+      <p class="about-story">
+        Nathalie Tamer is an Egyptian film director based in Cairo. A storyteller at heart, she graduated from Misr International University's Faculty of Mass Communication in 2023 — Radio & TV major.
+      </p>
+      <p class="about-story">
+        From her first steps as an AD Trainee to winning a competitive production grant and directing her own short film, her trajectory is defined by passion, precision, and an unrelenting love for the craft of cinema.
+      </p>
+    </div>
+
+    <div class="about-divider"></div>
+
+    <!-- col 3: stats -->
+    <div class="about-col about-col-3 reveal reveal-delay-2">
+      <div class="about-stat-row">
+        <div class="asr-num">5+</div>
+        <div class="asr-label">Projects</div>
+        <div class="asr-sub">Films, Ads & Music Films</div>
+      </div>
+      <div class="about-stat-row">
+        <div class="asr-num">'23</div>
+        <div class="asr-label">Graduated MIU</div>
+        <div class="asr-sub">Mass Communication</div>
+      </div>
+      <div class="about-stat-row">
+        <div class="asr-num">01</div>
+        <div class="asr-label">Grant Won</div>
+        <div class="asr-sub">HerStory Films · 2025</div>
+      </div>
+      <div class="about-stat-row">
+        <div class="asr-num">∞</div>
+        <div class="asr-label">Stories to Tell</div>
+        <div class="asr-sub">Cairo → The World</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- bottom credentials bar -->
+  <div class="about-bottombar">
+    <div class="about-cred reveal">
+      <div class="about-cred-icon">🎓</div>
+      <div class="about-cred-text">
+        <div class="about-cred-tag">Education · 2023</div>
+        <div class="about-cred-title">BA in Mass Communication — Radio & TV</div>
+        <div class="about-cred-sub">Misr International University (MIU)</div>
+      </div>
+    </div>
+    <div class="about-cred-div"></div>
+    <div class="about-cred reveal reveal-delay-1">
+      <div class="about-cred-icon">🏆</div>
+      <div class="about-cred-text">
+        <div class="about-cred-tag">Scholarship · 2025</div>
+        <div class="about-cred-title">Film Industry Business Certificate — 2nd Cohort</div>
+        <div class="about-cred-sub">AUC × Silver Screen Film School × HerStory Films</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════
+     FILMOGRAPHY
+══════════════════════════════════════ -->
+<section id="works">
+  <div class="works-inner">
+    <div class="works-header reveal">
+      <div>
+        <p class="sec-label">Selected Work</p>
+        <h2 class="sec-title">Filmography</h2>
+      </div>
+      <div class="works-count">05</div>
+    </div>
+
+    <div class="film-list">
+
+      <div class="film-row reveal">
+        <span class="film-num">01</span>
+        <div class="film-info">
+          <h3 class="film-title">بين خيطين <em>/ Between Two Threads</em></h3>
+          <div class="film-meta">
+            <span>Short Film</span><span>HerStory Films</span><span>2025</span>
+            <span>Writers: Mariam Abbas & Haguer Adel</span>
+          </div>
+        </div>
+        <div class="film-badge"><span class="badge-pill b-dir">Director</span></div>
+      </div>
+
+      <div class="film-row reveal">
+        <span class="film-num">02</span>
+        <div class="film-info">
+          <h3 class="film-title">Heya Khebra <em>/ هي خبرة</em></h3>
+          <div class="film-meta">
+            <span>Short Film</span><span>Co-Dir. Romario Samir</span>
+          </div>
+        </div>
+        <div class="film-badge"><span class="badge-pill b-codir">Co-Director</span></div>
+      </div>
+
+      <div class="film-row reveal">
+        <span class="film-num">03</span>
+        <div class="film-info">
+          <h3 class="film-title">Tarahum <em>/ تراحم</em></h3>
+          <div class="film-meta">
+            <span>Advertisement</span><span>OGz Studios</span><span>Dir. Ahmed Kamel</span>
+          </div>
+        </div>
+        <div class="film-badge"><span class="badge-pill b-ad">2nd AD</span></div>
+      </div>
+
+      <div class="film-row reveal">
+        <span class="film-num">04</span>
+        <div class="film-info">
+          <h3 class="film-title">Ahsan Nas <em>/ أحسن ناس</em></h3>
+          <div class="film-meta">
+            <span>Short Film</span><span>Sharek Online</span><span>Dir. Tamer Adly</span>
+          </div>
+        </div>
+        <div class="film-badge"><span class="badge-pill b-ad">2nd AD</span></div>
+      </div>
+
+      <div class="film-row reveal">
+        <span class="film-num">05</span>
+        <div class="film-info">
+          <h3 class="film-title">Wayak <em>/ وياك</em></h3>
+          <div class="film-meta">
+            <span>Music Film</span><span>Dir. Nada Nader</span>
+          </div>
+        </div>
+        <div class="film-badge"><span class="badge-pill b-tr">AD Trainee</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     GALLERY
+     ── Put all image files in same folder as this HTML ──
+     ── HEIC files: rename to .jpg before uploading ──
+══════════════════════════════════════ -->
+<section id="gallery">
+  <div class="gallery-header reveal">
+    <p class="sec-label">On Set & On Screen</p>
+    <h2 class="sec-title">Gallery</h2>
+  </div>
+
+  <!-- ── GRADUATION ────────────────── -->
+  <!-- FILE: grad.jpg -->
+  <div class="proj-block reveal">
+    <div class="proj-head">
+      <span class="proj-name">Graduation</span>
+      <span class="proj-info">MIU · Mass Communication · July 2023</span>
+    </div>
+    <div class="grad-card">
+      <div class="grad-photo-wrap">
+        <div class="grad-strip" id="gradStrip"></div>
+        <img src="grad.jpg" alt="Nathalie Tamer MIU Graduation 2023">
+        <div class="grad-photo-overlay"></div>
+      </div>
+      <div class="grad-info">
+        <div class="grad-year">23</div>
+        <div class="grad-info-inner">
+          <span class="grad-tag">Class of 2023</span>
+          <h3 class="grad-title">Bachelor of Arts<br>in Mass Communication</h3>
+          <p class="grad-sub">Radio & Television Major</p>
+        </div>
+        <div class="grad-details">
+          <div class="grad-detail-row">
+            <span class="grad-detail-label">School</span>
+            <span class="grad-detail-val">Misr International University (MIU)</span>
+          </div>
+          <div class="grad-detail-row">
+            <span class="grad-detail-label">Faculty</span>
+            <span class="grad-detail-val">Mass Communication</span>
+          </div>
+          <div class="grad-detail-row">
+            <span class="grad-detail-label">Date</span>
+            <span class="grad-detail-val">July 2023</span>
+          </div>
+          <div class="grad-detail-row">
+            <span class="grad-detail-label">Next</span>
+            <span class="grad-detail-val">Film Director — Cairo, Egypt</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AHSAN NAS ─────────────────── -->
+  <!-- FILES: 1_1.jpg to 1_10.jpg -->
+  <div class="proj-block reveal">
+    <div class="proj-head">
+      <span class="proj-name">Ahsan Nas — أحسن ناس</span>
+      <span class="proj-tag b-ad">2nd AD</span>
+      <span class="proj-info">Dir. Tamer Adly · Sharek Online</span>
+    </div>
+
+    <!-- BTS -->
+    <div class="ig c7-5">
+      <div class="gi r16-10">
+        <!-- 1_1.jpg: Nathalie showing phone monitor to cast/crew on outdoor set -->
+        <img src="1_1.jpg" alt="Ahsan Nas BTS">
+        <div class="gi-cap">1_1.jpg — BTS · Reviewing the shot on set</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 1_2.jpg: Full crew group photo at night inside rustic mud-brick set -->
+        <img src="1_2.jpg" alt="Ahsan Nas crew">
+        <div class="gi-cap">1_2.jpg — BTS · Full crew photo</div>
+      </div>
+    </div>
+
+    <div class="ig c2 mt">
+      <div class="gi r16-10">
+        <!-- 1_3.jpg: SUMO monitor on set showing historical crowd scene -->
+        <img src="1_3.jpg" alt="Ahsan Nas monitor">
+        <div class="gi-cap">1_3.jpg — BTS · Director's monitor</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 1_4.jpg: Screen playback showing Nathalie with actor in period costume -->
+        <img src="1_4.jpg" alt="Ahsan Nas playback">
+        <div class="gi-cap">1_4.jpg — BTS · Playback review</div>
+      </div>
+    </div>
+
+    <!-- Film Stills -->
+    <div class="ig c3 mt">
+      <div class="gi r16-10">
+        <!-- 1_5.jpg: Film still — two men in historical costumes in interior room -->
+        <img src="1_5.jpg" alt="Ahsan Nas still">
+        <div class="gi-cap">1_5.jpg — Film Still · Interior scene</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 1_6.jpg: Film still — outdoor crowd gathering, red fabric, trees -->
+        <img src="1_6.jpg" alt="Ahsan Nas crowd">
+        <div class="gi-cap">1_6.jpg — Film Still · Outdoor crowd</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 1_7.jpg: Film still — close-up man reading parchment by candlelight -->
+        <img src="1_7.jpg" alt="Ahsan Nas close-up">
+        <div class="gi-cap">1_7.jpg — Film Still · Character close-up</div>
+      </div>
+    </div>
+
+    <div class="ig c3 mt">
+      <div class="gi r16-10">
+        <!-- 1_8.jpg: Film still — smiling man in red headdress, arms crossed -->
+        <img src="1_8.jpg" alt="Ahsan Nas character">
+        <div class="gi-cap">1_8.jpg — Film Still · Character portrait</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 1_9.jpg: Film still — group in robes walking through palm tree path -->
+        <img src="1_9.jpg" alt="Ahsan Nas walking">
+        <div class="gi-cap">1_9.jpg — Film Still · Walking through palms</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 1_10.jpg: Film still — small group talking by mud-brick house exterior -->
+        <img src="1_10.jpg" alt="Ahsan Nas exterior">
+        <div class="gi-cap">1_10.jpg — Film Still · Village exterior</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── WAYAK ──────────────────────── -->
+  <!-- FILES: 2_1.jpg to 2_6.jpg -->
+  <div class="proj-block reveal">
+    <div class="proj-head">
+      <span class="proj-name">Wayak — وياك</span>
+      <span class="proj-tag b-tr">AD Trainee</span>
+      <span class="proj-info">Dir. Nada Nader · Music Film</span>
+    </div>
+
+    <div class="ig c5-7">
+      <div class="gi r16-10">
+        <!-- 2_1.jpg: Film still — woman at dressing table reflected in ornate gold mirror -->
+        <img src="2_1.jpg" alt="Wayak mirror scene">
+        <div class="gi-cap">2_1.jpg — Mirror dressing table scene</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 2_2.jpg: Film still — two silhouettes on bench, warm night light from behind -->
+        <img src="2_2.jpg" alt="Wayak bench scene">
+        <div class="gi-cap">2_2.jpg — Night bench scene</div>
+      </div>
+    </div>
+
+    <div class="ig c4 mt">
+      <div class="gi r16-10">
+        <!-- 2_3.jpg: Film still — man with cigar in library armchair, warm amber light -->
+        <img src="2_3.jpg" alt="Wayak library">
+        <div class="gi-cap">2_3.jpg — Library scene</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 2_4.jpg: Film still — woman leaning on balcony of ornate old building, low angle -->
+        <img src="2_4.jpg" alt="Wayak balcony">
+        <div class="gi-cap">2_4.jpg — Balcony scene</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 2_5.jpg: Film still — young man with face tattoos and flat cap, garden background -->
+        <img src="2_5.jpg" alt="Wayak portrait">
+        <div class="gi-cap">2_5.jpg — Portrait</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 2_6.jpg: Film still — woman in black standing in doorway -->
+        <img src="2_6.jpg" alt="Wayak doorway">
+        <div class="gi-cap">2_6.jpg — Doorway scene</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── HEYA KHEBRA ────────────────── -->
+  <!-- FILES: 3_1.jpg to 3_7.jpg -->
+  <div class="proj-block reveal">
+    <div class="proj-head">
+      <span class="proj-name">Heya Khebra — هي خبرة</span>
+      <span class="proj-tag b-codir">Co-Director</span>
+      <span class="proj-info">w/ Romario Samir</span>
+    </div>
+
+    <div class="ig c7-5">
+      <div class="gi r16-10">
+        <!-- 3_1.jpg: BTS — Viltrox DC-70 monitor on tripod, woman in white in blue light -->
+        <img src="3_1.jpg" alt="Heya Khebra monitor">
+        <div class="gi-cap">3_1.jpg — BTS · Monitor framing</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 3_2.jpg: BTS — Canon DSLR with monitor, camera operator filming actress smiling -->
+        <img src="3_2.jpg" alt="Heya Khebra camera">
+        <div class="gi-cap">3_2.jpg — BTS · Camera & actress</div>
+      </div>
+    </div>
+
+    <div class="ig c3 mt">
+      <div class="gi r16-10">
+        <!-- 3_3.jpg: BTS — Six crew members group photo in office room -->
+        <img src="3_3.jpg" alt="Heya Khebra crew">
+        <div class="gi-cap">3_3.jpg — BTS · Crew group photo</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 3_4.jpg: BTS — Director facing actress in white dress, camera rig visible -->
+        <img src="3_4.jpg" alt="Heya Khebra directing">
+        <div class="gi-cap">3_4.jpg — BTS · Directing the shot</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 3_5.jpg: BTS — Nathalie sitting alone reviewing script/notes in quiet moment -->
+        <img src="3_5.jpg" alt="Heya Khebra script">
+        <div class="gi-cap">3_5.jpg — BTS · Script review</div>
+      </div>
+    </div>
+
+    <div class="ig c2 mt">
+      <div class="gi r16-10">
+        <!-- 3_6.jpg: BTS — Full lighting & Viltrox rig setup, multiple crew in room -->
+        <img src="3_6.jpg" alt="Heya Khebra lighting">
+        <div class="gi-cap">3_6.jpg — BTS · Lighting & rig setup</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 3_7.jpg: BTS — Canon camera on slider framing empty living room (empty frame) -->
+        <img src="3_7.jpg" alt="Heya Khebra framing">
+        <div class="gi-cap">3_7.jpg — BTS · Camera framing the room</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TARAHUM ────────────────────── -->
+  <!-- FILES: 4_1.jpg to 4_6.jpg -->
+  <div class="proj-block reveal">
+    <div class="proj-head">
+      <span class="proj-name">Tarahum — تراحم</span>
+      <span class="proj-tag b-ad">2nd AD</span>
+      <span class="proj-info">Dir. Ahmed Kamel · OGz Studios</span>
+    </div>
+
+    <div class="ig c7-5">
+      <div class="gi r16-10">
+        <!-- 4_1.jpg: Film still — men in traditional Gulf attire at desks in warm office -->
+        <img src="4_1.jpg" alt="Tarahum office">
+        <div class="gi-cap">4_1.jpg — Office scene</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 4_2.jpg: Film still — man alone on bed in dark smoky blue room, shadows behind -->
+        <img src="4_2.jpg" alt="Tarahum smoke">
+        <div class="gi-cap">4_2.jpg — Moody smoke scene</div>
+      </div>
+    </div>
+
+    <div class="ig c4 mt">
+      <div class="gi r16-10">
+        <!-- 4_3.jpg: Film still — child's bedroom, sage green walls, boy at desk by window -->
+        <img src="4_3.jpg" alt="Tarahum child bedroom">
+        <div class="gi-cap">4_3.jpg — Child's bedroom</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 4_4.jpg: Film still — mother & child facing father in dim lamp-lit living room -->
+        <img src="4_4.jpg" alt="Tarahum family">
+        <div class="gi-cap">4_4.jpg — Family scene</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 4_5.jpg: Film still — man and woman sitting far apart in blue-toned living room -->
+        <img src="4_5.jpg" alt="Tarahum couple">
+        <div class="gi-cap">4_5.jpg — Couple apart</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 4_6.jpg: Film still — teenager sitting alone on bed at night, cool blue bedroom -->
+        <img src="4_6.jpg" alt="Tarahum teenager">
+        <div class="gi-cap">4_6.jpg — Teenager alone</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BEHIND THE CAMERA ──────────── -->
+  <!-- FILES: 5_1.jpg, 5_2.jpg -->
+  <div class="proj-block reveal">
+    <div class="proj-head">
+      <span class="proj-name">Behind the Camera</span>
+      <span class="proj-info">Various Projects · General BTS</span>
+    </div>
+    <div class="ig c2">
+      <div class="gi r16-10">
+        <!-- 5_1.jpg: BTS — Nathalie with headphones holding phone up, studio set, large monitor behind her -->
+        <img src="5_1.jpg" alt="Nathalie directing headphones">
+        <div class="gi-cap">5_1.jpg — Directing with headphones</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 5_2.jpg: BTS — Dark studio set, Ronin gimbal in foreground, crew silhouettes, blue/red light -->
+        <img src="5_2.jpg" alt="Dark set gimbal">
+        <div class="gi-cap">5_2.jpg — Night set · Ronin gimbal</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── بين خيطين — HERSTORY ───────── -->
+  <!-- FILES: 7_1.jpg, 7_2.jpg, 7_3.jpg, 7_4.jpg -->
+  <!-- NOTE: rename 7_1.heic → 7_1.jpg, 7_3.heic → 7_3.jpg, 7_4.heic → 7_4.jpg -->
+  <div class="proj-block reveal">
+    <div class="proj-head">
+      <span class="proj-name">بين خيطين — HerStory Films</span>
+      <span class="proj-tag b-dir">Director · Grant Winner 🏆</span>
+    </div>
+
+    <div class="ig c1">
+      <div class="gi r16-9">
+        <!-- 7_1.jpg: Nathalie in blue suit holding clapperboard, with Mariam Abbas & Haguer Adel,
+             standing in front of large "Change the Narrative — HerStory Films" banner -->
+        <img src="7_1.jpg" alt="HerStory Pitching Day Grant Winners">
+        <div class="gi-cap">7_1.jpg — "Change the Narrative" Pitching Day · Production Grant Win</div>
+      </div>
+    </div>
+
+    <div class="ig c3 mt">
+      <div class="gi r16-10">
+        <!-- 7_2.jpg: Additional photo from pitching day event -->
+        <img src="7_2.jpg" alt="HerStory pitching day">
+        <div class="gi-cap">7_2.jpg — HerStory Pitching Day</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 7_3.jpg (renamed from 7_3.heic): Event photo from HerStory Films day -->
+        <img src="7_3.jpg" alt="HerStory event">
+        <div class="gi-cap">7_3.jpg — HerStory Event</div>
+      </div>
+      <div class="gi r16-10">
+        <!-- 7_4.jpg (renamed from 7_4.heic): Event photo from HerStory Films day -->
+        <img src="7_4.jpg" alt="HerStory event">
+        <div class="gi-cap">7_4.jpg — HerStory Event</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AUC SCHOLARSHIP ────────────── -->
+  <!-- FILE: 6.jpg -->
+  <div class="proj-block reveal">
+    <div class="proj-head">
+      <span class="proj-name">AUC × Silver Screen Scholarship</span>
+      <span class="proj-info">Film Industry Business Certificate · 2nd Cohort 2025</span>
+    </div>
+    <div class="schol-card">
+      <div class="schol-info">
+        <div class="schol-badge">
+          <div class="schol-badge-dot"></div>
+          <span>Scholarship Selected Participant</span>
+        </div>
+        <h3 class="schol-title">Film Industry<br>Business Certificate</h3>
+        <p class="schol-desc">Selected through a competitive process for the 2nd Cohort of the Film Industry Business Certificate — a program designed to equip emerging filmmakers with the tools to build sustainable careers in cinema.</p>
+        <div class="schol-orgs">
+          <span class="schol-org-pill">AUC · School of Continuing Education</span>
+          <span class="schol-org-pill">Silver Screen Film School</span>
+          <span class="schol-org-pill">HerStory Films</span>
+          <span class="schol-org-pill">2nd Cohort · 2025</span>
+        </div>
+      </div>
+      <div class="schol-photo-wrap">
+        <!-- 6.jpg: Scholarship card with Nathalie's photo, AUC/Silver Screen/HerStory logos, dark blue bg -->
+        <img src="6.jpg" alt="AUC Silver Screen Scholarship Certificate">
+        <div class="schol-photo-overlay"></div>
+        <span class="schol-year-tag">2025</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="gallery-ig-link reveal">More on Instagram → <a href="https://www.instagram.com/nat.tamer" target="_blank">@nat.tamer</a></p>
+</section>
+
+<!-- ══════════════════════════════════════
+     MILESTONES
+══════════════════════════════════════ -->
+<section id="achievements">
+  <div class="ach-inner">
+    <div class="reveal">
+      <p class="sec-label">Recognition</p>
+      <h2 class="sec-title">Milestones</h2>
+    </div>
+    <div class="ach-grid">
+      <div class="ach-cell reveal">
+        <span class="ach-icon">🏆</span>
+        <h3 class="ach-title">Production Grant Winner</h3>
+        <p class="ach-org">HerStory Films · "Change the Narrative" · 2025</p>
+        <p class="ach-desc">Won a competitive grant for <em>بين خيطين</em> at HerStory Films' pitching day — directing alongside writers Mariam Abbas & Haguer Adel Abouellil.</p>
+      </div>
+      <div class="ach-cell reveal reveal-delay-1">
+        <span class="ach-icon">🎓</span>
+        <h3 class="ach-title">Film Business Scholarship</h3>
+        <p class="ach-org">AUC × Silver Screen Film School · 2nd Cohort 2025</p>
+        <p class="ach-desc">Selected participant for the Film Industry Business Certificate — a joint program by AUC's School of Continuing Education, Silver Screen Film School & HerStory Films.</p>
+      </div>
+      <div class="ach-cell reveal reveal-delay-2">
+        <span class="ach-icon">🎬</span>
+        <h3 class="ach-title">BA — Mass Communication</h3>
+        <p class="ach-org">Misr International University · July 2023</p>
+        <p class="ach-desc">Graduated from MIU's Faculty of Mass Communication, Radio & TV major — the foundation of her directing journey.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     CONTACT
+══════════════════════════════════════ -->
+<section id="contact">
+  <p class="contact-pre reveal">Open for Collaboration</p>
+  <h2 class="contact-title reveal">
+    LET'S<br>
+    <span class="stroke">CREATE</span>
+  </h2>
+  <p class="contact-sub reveal">Available for Directing, Assistant Directing, and Editing — short films, music films, commercials.</p>
+
+  <div class="c-btns reveal">
+    <a href="mailto:Nathalietalamas@gmail.com" class="c-btn c-email">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <span>Send an Email</span>
+    </a>
+    <a href="https://www.instagram.com/nat.tamer" target="_blank" class="c-btn c-ig">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      <span>DM on Instagram</span>
+    </a>
+  </div>
+
+  <div class="c-divider reveal"><span>Available for</span></div>
+  <p class="c-for reveal">Directing · Assistant Directing · Editing<br>Short Films · Music Films · Commercials · Collaborations</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">Nathalie Tamer</div>
+  <ul class="f-links">
+    <li><a href="mailto:Nathalietalamas@gmail.com">Email</a></li>
+    <li><a href="https://www.instagram.com/nat.tamer" target="_blank">Instagram</a></li>
+  </ul>
+  <p class="f-copy">© 2025 Nathalie Tamer · Cairo, Egypt</p>
+</footer>
+
+<script>
+// Cursor
+const cur=document.getElementById('cur'),ring=document.getElementById('curRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+(function loop(){
+  rx+=(mx-rx)*.1;ry+=(my-ry)*.1;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='48px';ring.style.height='48px';ring.style.borderColor='rgba(232,96,122,.8)'});
+  el.addEventListener('mouseleave',()=>{ring.style.width='32px';ring.style.height='32px';ring.style.borderColor='rgba(232,96,122,.5)'});
+});
+
+// Nav scroll
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60));
+
+// Grad strip perforations
+const gs=document.getElementById('gradStrip');
+if(gs){for(let i=0;i<22;i++){const d=document.createElement('div');d.className='grad-perf';gs.appendChild(d);}}
+
+// Perforations
+['perfL','perfR'].forEach(id=>{
+  const el=document.getElementById(id);
+  for(let i=0;i<28;i++){const d=document.createElement('div');d.className='perf';el.appendChild(d);}
+});
+
+// Mobile menu
+document.getElementById('ham').onclick=()=>document.getElementById('mob').classList.add('open');
+document.getElementById('closeM').onclick=()=>document.getElementById('mob').classList.remove('open');
+document.querySelectorAll('.ml').forEach(l=>l.addEventListener('click',()=>document.getElementById('mob').classList.remove('open')));
+
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*60);obs.unobserve(e.target);}
+  });
+},{threshold:.07});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
