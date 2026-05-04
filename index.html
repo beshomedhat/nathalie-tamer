@@ -381,19 +381,6 @@ nav.scrolled{
 .about-cred-sub{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.1em;color:var(--dim);margin-top:.2rem}
 .about-cred-div{background:rgba(255,255,255,.05)}
 
-@media(max-width:960px){
-  .about-topbar{padding:.7rem 2rem}
-  .about-grid{grid-template-columns:1fr;min-height:auto}
-  .about-divider{display:none}
-  .about-col{padding:3rem 2rem}
-  .about-col-3{flex-direction:column}
-  .about-stat-row{padding:2rem}
-  .about-bottombar{grid-template-columns:1fr}
-  .about-cred-div{display:none}
-  .about-cred{padding:1.5rem 2rem;border-bottom:1px solid rgba(255,255,255,.05)}
-  .about-ghost{display:none}
-}
-
 /* ── FILMOGRAPHY ── */
 #works{
   padding:7rem 4rem;
@@ -640,18 +627,6 @@ nav.scrolled{
   writing-mode:vertical-rl;
 }
 
-@media(max-width:960px){
-  .grad-card{grid-template-columns:1fr}
-  .grad-photo-wrap{height:260px}
-  .grad-photo-overlay{background:linear-gradient(to top,var(--bg2) 0%,transparent 60%)}
-  .grad-year{font-size:4rem}
-  .grad-info{padding:2rem 1.5rem}
-  .schol-card{grid-template-columns:1fr}
-  .schol-photo-wrap{height:220px}
-  .schol-photo-overlay{background:linear-gradient(to top,var(--bg2) 0%,transparent 60%)}
-  .schol-info{padding:2rem 1.5rem 2rem 2rem}
-}
-
 .gallery-ig-link{
   text-align:center;margin-top:2.5rem;
   font-family:'DM Mono',monospace;font-size:.58rem;
@@ -743,30 +718,197 @@ footer{
 .reveal-delay-1{transition-delay:.1s}
 .reveal-delay-2{transition-delay:.2s}
 
-/* ── RESPONSIVE ── */
+/* ══════════════════════════════════════
+   RESPONSIVE — TABLET (max 960px)
+══════════════════════════════════════ */
 @media(max-width:960px){
+
+  /* NAV */
   nav{padding:1.3rem 2rem}
   nav.scrolled{padding:.9rem 2rem}
   .nav-links{display:none}
   .hamburger{display:flex}
+
+  /* HERO */
   #hero{padding:0 2rem}
-  #about{grid-template-columns:1fr;gap:4rem;padding:6rem 2rem}
-  .stats-grid{grid-template-columns:1fr 1fr}
+  .perfs,.perfs-r{display:none}
+  .hero-pre{font-size:.55rem;letter-spacing:.22em}
+  .role-text{font-size:.55rem;letter-spacing:.18em}
+
+  /* ABOUT */
+  .about-topbar{padding:.7rem 2rem}
+  .about-grid{grid-template-columns:1fr;min-height:auto}
+  .about-divider{display:none}
+  .about-col{padding:2.5rem 2rem}
+  .about-col-1{justify-content:flex-start;padding-top:3rem}
+  .about-col-3{padding:0}
+  .about-stat-row{padding:1.8rem 2rem}
+  .about-bottombar{grid-template-columns:1fr}
+  .about-cred-div{display:none}
+  .about-cred{padding:1.5rem 2rem;border-bottom:1px solid rgba(255,255,255,.05)}
+  .about-ghost{display:none}
+
+  /* WORKS */
   #works{padding:5rem 2rem}
-  .works-header{flex-direction:column;align-items:flex-start;gap:0}.works-count{display:none}
-  .film-row{grid-template-columns:36px 1fr;gap:1rem}.film-badge{display:none}
-  #gallery{padding:5rem 2rem}
-  .c2,.c3,.c4,.c7-5,.c5-7{grid-template-columns:1fr}
-  .c2{grid-template-columns:1fr 1fr}
-  .span2{grid-column:span 1}
-  #achievements{padding:5rem 2rem}.ach-grid{grid-template-columns:1fr}
-  #contact{padding:6rem 2rem}.c-btns{grid-template-columns:1fr}
-  footer{padding:2rem;flex-direction:column;text-align:center}.f-links{justify-content:center}
+  .works-header{flex-direction:column;align-items:flex-start;gap:0}
+  .works-count{display:none}
+  .film-row{grid-template-columns:36px 1fr;gap:1rem}
+  .film-badge{display:none}
+
+  /* GALLERY general */
+  #gallery{padding:4rem 0}
+  .gallery-header{padding:0 2rem;margin-bottom:3rem}
+  .proj-head{padding:1.2rem 2rem;gap:1rem}
+  .proj-info{display:none}
+  .scroll-hint{padding:.6rem 2rem}
+
+  /* filmstrip */
+  .fs-sm,.fs-md,.fs-lg,.fs-sq,.fs-cin,.fs-xl{height:150px}
+  .fs-port{height:190px;width:142px}
+
+  /* contact sheet */
+  .contact-sheet{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+  .cs-item.cs-wide{grid-column:span 2}
+
+  /* feature split */
+  .feat-split{grid-template-columns:1fr}
+  .feat-main{grid-row:span 1;aspect-ratio:16/9}
+  .feat-side{aspect-ratio:16/9}
+
+  /* strip aside */
+  .strip-aside{grid-template-columns:1fr}
+  .aside-tall{height:200px}
+  .strip-wide{aspect-ratio:16/8}
+  .strip-half{aspect-ratio:4/3}
+
+  /* GRAD CARD — stack vertically, show full image */
+  .grad-card{grid-template-columns:1fr}
+  .grad-photo-wrap{
+    height:auto;
+    aspect-ratio:4/5;
+  }
+  .grad-photo-wrap img{
+    object-fit:cover;
+    object-position:center top;
+  }
+  .grad-photo-overlay{
+    background:linear-gradient(to top, rgba(14,14,14,.85) 0%, transparent 50%);
+  }
+  .grad-strip{display:none}
+  .grad-info{padding:2rem}
+  .grad-year{font-size:4rem;top:.5rem;right:1rem}
+
+  /* SCHOLARSHIP CARD — stack vertically, show full image */
+  .schol-card{grid-template-columns:1fr}
+  .schol-card::before{width:100%;height:3px;bottom:auto;top:0;left:0;right:0;background:linear-gradient(to right,var(--amber),transparent)}
+  .schol-photo-wrap{
+    height:auto;
+    aspect-ratio:1/1;
+    order:-1;
+  }
+  .schol-photo-wrap img{
+    object-fit:cover;
+    object-position:center center;
+  }
+  .schol-photo-overlay{
+    background:linear-gradient(to top, rgba(14,14,14,.7) 0%, transparent 40%);
+  }
+  .schol-year-tag{writing-mode:horizontal-tb;bottom:auto;right:auto;top:.8rem;left:1rem}
+  .schol-info{padding:2rem}
+
+  /* MILESTONES */
+  #achievements{padding:5rem 2rem}
+  .ach-grid{grid-template-columns:1fr}
+
+  /* CONTACT */
+  #contact{padding:6rem 2rem}
+  .c-btns{grid-template-columns:1fr}
+  .contact-title{font-size:clamp(3rem,14vw,6rem)}
+
+  /* FOOTER */
+  footer{padding:2rem;flex-direction:column;text-align:center}
+  .f-links{justify-content:center}
 }
+
+/* ══════════════════════════════════════
+   RESPONSIVE — MOBILE (max 600px)
+══════════════════════════════════════ */
 @media(max-width:600px){
-  .name-line{font-size:clamp(3.5rem,18vw,5.5rem)}
-  .c2{grid-template-columns:1fr}
-  .stats-grid{grid-template-columns:1fr}
+
+  /* HERO */
+  .name-line{font-size:clamp(3.2rem,17vw,5rem)}
+  .hero-pre{font-size:.5rem;letter-spacing:.18em;margin-bottom:1.2rem}
+  .hero-role{gap:1rem}
+  .role-text{font-size:.5rem;letter-spacing:.14em}
+
+  /* ABOUT */
+  .about-headline{font-size:clamp(2rem,10vw,3rem)}
+  .about-stat-row{padding:1.5rem 1.5rem}
+  .asr-num{font-size:2.5rem}
+  .about-cred{flex-direction:column;align-items:flex-start;gap:1rem;padding:1.5rem}
+
+  /* WORKS */
+  #works{padding:4rem 1.5rem}
+  .film-title{font-size:1.2rem}
+
+  /* GALLERY */
+  .proj-head{flex-wrap:wrap;gap:.6rem}
+  .proj-name{font-size:1.2rem}
+  .proj-tag{font-size:.45rem}
+
+  /* filmstrip smaller */
+  .fs-sm,.fs-md,.fs-lg,.fs-sq,.fs-cin,.fs-xl{height:130px}
+  .fs-port{height:170px;width:127px}
+
+  /* contact sheet tighter */
+  .contact-sheet{grid-template-columns:repeat(2,1fr)}
+  .cs-item.cs-wide{grid-column:span 2}
+
+  /* GRAD CARD on mobile — portrait, full image visible */
+  .grad-photo-wrap{
+    aspect-ratio:3/4;
+    min-height:320px;
+  }
+  .grad-photo-wrap img{
+    object-position:center top;
+  }
+  .grad-info{padding:1.5rem}
+  .grad-title{font-size:1.4rem}
+  .grad-details{gap:.5rem}
+
+  /* SCHOLARSHIP on mobile — show full card image */
+  .schol-photo-wrap{
+    aspect-ratio:3/4;
+    min-height:340px;
+  }
+  .schol-photo-wrap img{
+    object-fit:contain;
+    object-position:center;
+    background:#0d1a2e;
+  }
+  .schol-photo-overlay{background:none}
+  .schol-info{padding:1.5rem}
+  .schol-title{font-size:1.4rem}
+  .schol-orgs{gap:.5rem}
+  .schol-org-pill{font-size:.46rem}
+
+  /* feat split */
+  .feat-main-label h4{font-size:1.1rem}
+  .strip-row{flex-direction:column}
+  .strip-half{aspect-ratio:16/9}
+
+  /* MILESTONES */
+  #achievements{padding:4rem 1.5rem}
+  .ach-cell{padding:2rem 1.5rem}
+
+  /* CONTACT */
+  #contact{padding:5rem 1.5rem}
+  .contact-title{font-size:clamp(2.8rem,16vw,4.5rem)}
+  .c-btn{padding:1.4rem}
+
+  /* FOOTER */
+  footer{padding:1.5rem;gap:.8rem}
+  .f-links{gap:1.5rem}
 }
 </style>
 </head>
