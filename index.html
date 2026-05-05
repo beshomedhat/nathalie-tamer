@@ -95,6 +95,7 @@ nav.scrolled{
   background:none;border:none;
   cursor:pointer;padding:8px;
   position:relative;z-index:510;
+  transition:opacity .3s ease;
 }
 .hamburger span{
   display:block;width:24px;height:1.5px;
@@ -103,18 +104,15 @@ nav.scrolled{
   transform-origin:center;
 }
 /* animated X when open */
-.hamburger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
-.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
-.hamburger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+.hamburger.open{opacity:0;pointer-events:none}
 
 /* ── MOBILE MENU ── */
 .mobile-menu{
   position:fixed;inset:0;
   background:var(--bg);
-  z-index:490;
+  z-index:600;
   flex-direction:column;align-items:center;justify-content:center;
   gap:2.5rem;
-  /* use visibility + opacity instead of display:none so transitions work */
   display:flex;
   opacity:0;
   visibility:hidden;
@@ -152,6 +150,7 @@ nav.scrolled{
   cursor:pointer;
   font-family:'Tenor Sans',sans-serif;
   transition:color .3s;
+  z-index:610;
 }
 .close-menu:hover{color:var(--white)}
 
@@ -1645,9 +1644,23 @@ if(gs){for(let i=0;i<22;i++){const d=document.createElement('div');d.className='
 });
 
 // Mobile menu
-document.getElementById('ham').onclick=()=>document.getElementById('mob').classList.add('open');
-document.getElementById('closeM').onclick=()=>document.getElementById('mob').classList.remove('open');
-document.querySelectorAll('.ml').forEach(l=>l.addEventListener('click',()=>document.getElementById('mob').classList.remove('open')));
+const hamBtn=document.getElementById('ham');
+const mobMenu=document.getElementById('mob');
+function openMenu(){
+  mobMenu.classList.add('open');
+  hamBtn.style.opacity='0';
+  hamBtn.style.pointerEvents='none';
+  document.body.style.overflow='hidden';
+}
+function closeMenu(){
+  mobMenu.classList.remove('open');
+  hamBtn.style.opacity='1';
+  hamBtn.style.pointerEvents='auto';
+  document.body.style.overflow='';
+}
+hamBtn.onclick=openMenu;
+document.getElementById('closeM').onclick=closeMenu;
+document.querySelectorAll('.ml').forEach(l=>l.addEventListener('click',closeMenu));
 
 // Scroll reveal
 const obs=new IntersectionObserver(entries=>{
