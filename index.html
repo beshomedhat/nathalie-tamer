@@ -20,13 +20,17 @@
 }
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{
+  scroll-behavior:smooth;
+  overflow-x:hidden;
+}
 body{
   background:var(--bg);
   color:var(--white);
   font-family:'Tenor Sans',sans-serif;
   cursor:none;
   overflow-x:hidden;
+  width:100%;
 }
 
 /* ── GRAIN ── */
@@ -54,8 +58,9 @@ nav{
   transition:all .5s ease;
 }
 nav.scrolled{
-  background:rgba(8,8,8,.94);
+  background:rgba(8,8,8,.96);
   backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
   padding:1.1rem 4rem;
   border-bottom:1px solid var(--border);
 }
@@ -64,6 +69,7 @@ nav.scrolled{
   font-size:1.1rem;letter-spacing:.08em;
   color:var(--white);text-decoration:none;
   font-style:italic;
+  position:relative;z-index:510;
 }
 .nav-logo span{color:var(--amber);font-style:normal}
 .nav-links{display:flex;gap:3rem;list-style:none}
@@ -82,23 +88,72 @@ nav.scrolled{
 .nav-links a:hover{opacity:1;color:var(--white)}
 .nav-links a:hover::after{transform:scaleX(1)}
 
-.hamburger{display:none;flex-direction:column;gap:6px;background:none;border:none;cursor:pointer;padding:4px}
-.hamburger span{display:block;width:22px;height:1px;background:var(--white);transition:all .3s}
-
-.mobile-menu{
-  display:none;position:fixed;inset:0;
-  background:var(--bg);z-index:600;
-  flex-direction:column;align-items:center;justify-content:center;
-  gap:2.5rem;opacity:0;transition:opacity .4s;
+/* ── HAMBURGER ── */
+.hamburger{
+  display:none;
+  flex-direction:column;gap:6px;
+  background:none;border:none;
+  cursor:pointer;padding:8px;
+  position:relative;z-index:510;
 }
-.mobile-menu.open{display:flex;opacity:1}
+.hamburger span{
+  display:block;width:24px;height:1.5px;
+  background:var(--white);
+  transition:transform .35s cubic-bezier(.16,1,.3,1), opacity .3s;
+  transform-origin:center;
+}
+/* animated X when open */
+.hamburger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+
+/* ── MOBILE MENU ── */
+.mobile-menu{
+  position:fixed;inset:0;
+  background:var(--bg);
+  z-index:490;
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:2.5rem;
+  /* use visibility + opacity instead of display:none so transitions work */
+  display:flex;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity .4s ease, visibility .4s ease;
+}
+.mobile-menu.open{
+  opacity:1;
+  visibility:visible;
+  pointer-events:all;
+}
 .mobile-menu a{
   font-family:'Playfair Display',serif;
   font-size:2.8rem;letter-spacing:.04em;
-  color:var(--white);text-decoration:none;transition:color .3s;
+  color:var(--white);text-decoration:none;
+  transition:color .3s;
+  transform:translateY(20px);
+  opacity:0;
+  transition:transform .4s ease, opacity .4s ease, color .3s;
 }
+.mobile-menu.open a{
+  transform:translateY(0);
+  opacity:1;
+}
+.mobile-menu.open a:nth-child(2){transition-delay:.05s}
+.mobile-menu.open a:nth-child(3){transition-delay:.1s}
+.mobile-menu.open a:nth-child(4){transition-delay:.15s}
+.mobile-menu.open a:nth-child(5){transition-delay:.2s}
+.mobile-menu.open a:nth-child(6){transition-delay:.25s}
 .mobile-menu a:hover{color:var(--amber)}
-.close-menu{position:absolute;top:1.8rem;right:2.5rem;font-size:1.8rem;color:var(--off);background:none;border:none;cursor:pointer;font-family:'Tenor Sans',sans-serif}
+.close-menu{
+  position:absolute;top:1.8rem;right:2rem;
+  font-size:1.8rem;color:var(--off);
+  background:none;border:none;
+  cursor:pointer;
+  font-family:'Tenor Sans',sans-serif;
+  transition:color .3s;
+}
+.close-menu:hover{color:var(--white)}
 
 /* ══════════════════════════════
    HERO — animated typography
@@ -248,6 +303,9 @@ nav.scrolled{
   user-select:none;
   z-index:0;
   letter-spacing:-.02em;
+  /* prevent causing horizontal scroll */
+  max-width:100%;
+  overflow:hidden;
 }
 
 /* top strip — full width label bar */
@@ -729,11 +787,14 @@ footer{
   .nav-links{display:none}
   .hamburger{display:flex}
 
-  /* HERO */
+  /* MOBILE MENU — smaller, tighter */
+  .mobile-menu{gap:1.8rem}
+  .mobile-menu a{font-size:2rem;letter-spacing:.02em}
+  .close-menu{font-size:1.4rem;top:1.4rem;right:1.5rem}
+
+  /* HERO — keep the same style, just fix padding & hide perfs */
   #hero{padding:0 2rem}
   .perfs,.perfs-r{display:none}
-  .hero-pre{font-size:.55rem;letter-spacing:.22em}
-  .role-text{font-size:.55rem;letter-spacing:.18em}
 
   /* ABOUT */
   .about-topbar{padding:.7rem 2rem}
@@ -783,17 +844,9 @@ footer{
 
   /* GRAD CARD — stack vertically, show full image */
   .grad-card{grid-template-columns:1fr}
-  .grad-photo-wrap{
-    height:auto;
-    aspect-ratio:4/5;
-  }
-  .grad-photo-wrap img{
-    object-fit:cover;
-    object-position:center top;
-  }
-  .grad-photo-overlay{
-    background:linear-gradient(to top, rgba(14,14,14,.85) 0%, transparent 50%);
-  }
+  .grad-photo-wrap{height:auto;aspect-ratio:4/5}
+  .grad-photo-wrap img{object-fit:cover;object-position:center top}
+  .grad-photo-overlay{background:linear-gradient(to top,rgba(14,14,14,.85) 0%,transparent 50%)}
   .grad-strip{display:none}
   .grad-info{padding:2rem}
   .grad-year{font-size:4rem;top:.5rem;right:1rem}
@@ -801,18 +854,9 @@ footer{
   /* SCHOLARSHIP CARD — stack vertically, show full image */
   .schol-card{grid-template-columns:1fr}
   .schol-card::before{width:100%;height:3px;bottom:auto;top:0;left:0;right:0;background:linear-gradient(to right,var(--amber),transparent)}
-  .schol-photo-wrap{
-    height:auto;
-    aspect-ratio:1/1;
-    order:-1;
-  }
-  .schol-photo-wrap img{
-    object-fit:cover;
-    object-position:center center;
-  }
-  .schol-photo-overlay{
-    background:linear-gradient(to top, rgba(14,14,14,.7) 0%, transparent 40%);
-  }
+  .schol-photo-wrap{height:auto;aspect-ratio:1/1;order:-1}
+  .schol-photo-wrap img{object-fit:cover;object-position:center center}
+  .schol-photo-overlay{background:linear-gradient(to top,rgba(14,14,14,.7) 0%,transparent 40%)}
   .schol-year-tag{writing-mode:horizontal-tb;bottom:auto;right:auto;top:.8rem;left:1rem}
   .schol-info{padding:2rem}
 
@@ -835,11 +879,13 @@ footer{
 ══════════════════════════════════════ */
 @media(max-width:600px){
 
-  /* HERO */
+  /* MOBILE MENU — even tighter on small screens */
+  .mobile-menu{gap:1.4rem}
+  .mobile-menu a{font-size:1.6rem}
+
+  /* HERO — keep exact same look, just scale font */
   .name-line{font-size:clamp(3.2rem,17vw,5rem)}
-  .hero-pre{font-size:.5rem;letter-spacing:.18em;margin-bottom:1.2rem}
-  .hero-role{gap:1rem}
-  .role-text{font-size:.5rem;letter-spacing:.14em}
+  /* hero-pre, hero-role, scan-line, scroll-hint all stay identical */
 
   /* ABOUT */
   .about-headline{font-size:clamp(2rem,10vw,3rem)}
@@ -855,37 +901,21 @@ footer{
   .proj-head{flex-wrap:wrap;gap:.6rem}
   .proj-name{font-size:1.2rem}
   .proj-tag{font-size:.45rem}
-
-  /* filmstrip smaller */
   .fs-sm,.fs-md,.fs-lg,.fs-sq,.fs-cin,.fs-xl{height:130px}
   .fs-port{height:170px;width:127px}
-
-  /* contact sheet tighter */
   .contact-sheet{grid-template-columns:repeat(2,1fr)}
   .cs-item.cs-wide{grid-column:span 2}
 
-  /* GRAD CARD on mobile — portrait, full image visible */
-  .grad-photo-wrap{
-    aspect-ratio:3/4;
-    min-height:320px;
-  }
-  .grad-photo-wrap img{
-    object-position:center top;
-  }
+  /* GRAD CARD */
+  .grad-photo-wrap{aspect-ratio:3/4;min-height:320px}
+  .grad-photo-wrap img{object-position:center top}
   .grad-info{padding:1.5rem}
   .grad-title{font-size:1.4rem}
   .grad-details{gap:.5rem}
 
-  /* SCHOLARSHIP on mobile — show full card image */
-  .schol-photo-wrap{
-    aspect-ratio:3/4;
-    min-height:340px;
-  }
-  .schol-photo-wrap img{
-    object-fit:contain;
-    object-position:center;
-    background:#0d1a2e;
-  }
+  /* SCHOLARSHIP */
+  .schol-photo-wrap{aspect-ratio:3/4;min-height:340px}
+  .schol-photo-wrap img{object-fit:contain;object-position:center;background:#0d1a2e}
   .schol-photo-overlay{background:none}
   .schol-info{padding:1.5rem}
   .schol-title{font-size:1.4rem}
