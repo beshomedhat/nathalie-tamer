@@ -127,6 +127,8 @@ nav.scrolled{
 }
 .nav-links a:hover{opacity:1;color:var(--white)}
 .nav-links a:hover::after{transform:scaleX(1)}
+.nav-links a.active{opacity:1;color:var(--amber)}
+.nav-links a.active::after{transform:scaleX(1)}
 
 /* ── HAMBURGER ── */
 .hamburger{
@@ -991,6 +993,8 @@ footer{
 <nav id="nav">
   <a href="#hero" class="nav-logo">Nathalie <span>Tamer</span></a>
   <ul class="nav-links">
+    <li><a href="#hero"></a></li>
+
     <li><a href="#about">About</a></li>
     <li><a href="#works">Filmography</a></li>
     <li><a href="#gallery">Gallery</a></li>
@@ -1705,6 +1709,22 @@ function closeMenu(){
 hamBtn.onclick=openMenu;
 document.getElementById('closeM').onclick=closeMenu;
 document.querySelectorAll('.ml').forEach(l=>l.addEventListener('click',closeMenu));
+
+// Active nav link on scroll (scroll spy)
+const navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
+const spySections = Array.from(navAnchors).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+function updateActiveNav() {
+  const scrollY = window.scrollY + window.innerHeight * 0.25;
+  let current = spySections[0];
+  spySections.forEach(sec => {
+    if (sec.offsetTop <= scrollY) current = sec;
+  });
+  navAnchors.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current.id);
+  });
+}
+window.addEventListener('scroll', updateActiveNav, { passive: true });
+updateActiveNav();
 
 // Scroll reveal
 const obs=new IntersectionObserver(entries=>{
