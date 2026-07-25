@@ -986,6 +986,78 @@ footer{
   footer{padding:1.5rem;gap:.8rem}
   .f-links{gap:1.5rem}
 }
+
+/* ── LIGHTBOX ── */
+.lightbox{
+  position:fixed;inset:0;z-index:7000;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .4s ease,visibility .4s ease;
+}
+.lightbox.open{opacity:1;visibility:visible;pointer-events:all}
+.lb-backdrop{
+  position:absolute;inset:0;
+  background:rgba(8,8,8,.94);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+.lb-content{
+  position:relative;z-index:1;
+  max-width:88vw;max-height:80vh;
+  display:flex;align-items:center;justify-content:center;
+  transform:scale(.92);opacity:0;
+  transition:transform .4s cubic-bezier(.16,1,.3,1),opacity .4s ease;
+}
+.lightbox.open .lb-content{transform:scale(1);opacity:1}
+.lb-img{
+  max-width:88vw;max-height:80vh;
+  width:auto;height:auto;
+  object-fit:contain;display:block;
+  box-shadow:0 30px 80px rgba(0,0,0,.6);
+  transition:opacity .28s ease,transform .28s cubic-bezier(.25,.46,.45,.94);
+}
+.lb-caption{
+  position:absolute;left:0;right:0;bottom:2.4rem;z-index:1;
+  text-align:center;padding:0 2rem;
+  font-family:'DM Mono',monospace;font-size:.62rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--off);
+  opacity:0;transform:translateY(8px);
+  transition:opacity .4s ease .1s,transform .4s ease .1s;
+}
+.lightbox.open .lb-caption{opacity:1;transform:translateY(0)}
+.lb-counter{
+  position:absolute;top:1.8rem;left:2rem;z-index:1;
+  font-family:'DM Mono',monospace;font-size:.58rem;
+  letter-spacing:.18em;color:var(--dim);
+}
+.lb-close,.lb-nav{
+  position:absolute;z-index:2;
+  background:none;border:1px solid var(--border);
+  color:var(--off);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:color .3s,border-color .3s,background .3s;
+}
+.lb-close:hover,.lb-nav:hover{color:var(--amber);border-color:rgba(232,96,122,.5);background:rgba(232,96,122,.06)}
+.lb-close{
+  top:1.6rem;right:2rem;width:2.6rem;height:2.6rem;border-radius:50%;
+}
+.lb-nav{
+  top:50%;transform:translateY(-50%);
+  width:3rem;height:3rem;border-radius:50%;
+}
+.lb-prev{left:1.6rem}
+.lb-next{right:1.6rem}
+
+@media(max-width:768px){
+  .lb-content{max-width:94vw;max-height:70vh}
+  .lb-img{max-width:94vw;max-height:70vh}
+  .lb-nav{width:2.4rem;height:2.4rem;top:auto;bottom:1.2rem;transform:none}
+  .lb-prev{left:50%;margin-left:-3.2rem}
+  .lb-next{right:50%;margin-right:-3.2rem}
+  .lb-close{top:1.2rem;right:1.2rem;width:2.2rem;height:2.2rem}
+  .lb-counter{top:1.3rem;left:1.2rem}
+  .lb-caption{bottom:4.4rem;font-size:.56rem}
+}
 </style>
 </head>
 <body>
@@ -1017,6 +1089,25 @@ footer{
   <a href="#achievements" class="ml">Milestones</a>
   <a href="#contact"      class="ml">Contact</a>
 </div>
+<!-- ── LIGHTBOX ── -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <div class="lb-backdrop" id="lbBackdrop"></div>
+  <span class="lb-counter" id="lbCounter"></span>
+  <button class="lb-close" id="lbClose" aria-label="Close">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous image">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15,18 9,12 15,6"/></svg>
+  </button>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Next image">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9,18 15,12 9,6"/></svg>
+  </button>
+  <div class="lb-content" id="lbContent">
+    <img class="lb-img" id="lbImg" src="" alt="">
+  </div>
+  <p class="lb-caption" id="lbCaption"></p>
+</div>
+
 
 <!-- ══════════════════════════════════════
      HERO — pure animated typography
@@ -1693,24 +1784,24 @@ footer{
       <div class="gi r16-10">
         <!-- placeholder image 2 -->
         <img src="images/projects/city-of-joy/2.jpg" alt="City of Joy Program BTS">
-        <div class="gi-cap">2.jpg — BTS</div>
+        <div class="gi-cap">2.jpg — City of Joy Program</div>
       </div>
       <div class="gi r16-10">
         <!-- placeholder image 3 -->
         <img src="images/projects/city-of-joy/3.jpg" alt="City of Joy Program set">
-        <div class="gi-cap">3.jpg — On Set</div>
+        <div class="gi-cap">3.jpg — City of Joy Program</div>
       </div>
     </div>
     <div class="ig c2 mt">
       <div class="gi r16-10">
         <!-- placeholder image 4 -->
         <img src="images/projects/city-of-joy/4.jpg" alt="City of Joy Program crew">
-        <div class="gi-cap">4.jpg — Crew</div>
+        <div class="gi-cap">4.jpg — City of Joy Program</div>
       </div>
       <div class="gi r16-10">
         <!-- placeholder image 5 -->
         <img src="images/projects/city-of-joy/5.jpg" alt="City of Joy Program episode still">
-        <div class="gi-cap">5.jpg — Episode Still</div>
+        <div class="gi-cap">5.jpg — City of Joy Program</div>
       </div>
     </div>
   </div>
@@ -1734,12 +1825,12 @@ footer{
       <div class="gi r16-10">
         <!-- placeholder image 2 -->
         <img src="images/projects/mariam/2.jpg" alt="Mariam BTS">
-        <div class="gi-cap">2.jpg — BTS</div>
+        <div class="gi-cap">2.jpg — Mariam</div>
       </div>
       <div class="gi r16-10">
         <!-- placeholder image 3 -->
         <img src="images/projects/mariam/3.jpg" alt="Mariam wardrobe">
-        <div class="gi-cap">3.jpg — Wardrobe</div>
+        <div class="gi-cap">3.jpg — Mariam</div>
       </div>
     </div>
   </div>
@@ -1763,29 +1854,29 @@ footer{
       <div class="gi r16-10">
         <!-- placeholder image 2 -->
         <img src="images/projects/u-turn/2.jpg" alt="U-Turn BTS">
-        <div class="gi-cap">2.jpg — BTS</div>
+        <div class="gi-cap">2.jpg — U-Turn</div>
       </div>
       <div class="gi r16-10">
         <!-- placeholder image 3 -->
         <img src="images/projects/u-turn/3.jpg" alt="U-Turn directing">
-        <div class="gi-cap">3.jpg — Directing the Shot</div>
+        <div class="gi-cap">3.jpg — U-Turn</div>
       </div>
     </div>
     <div class="ig c3 mt">
       <div class="gi r16-10">
         <!-- placeholder image 4 -->
         <img src="images/projects/u-turn/4.jpg" alt="U-Turn crew">
-        <div class="gi-cap">4.jpg — Crew</div>
+        <div class="gi-cap">4.jpg — U-Turn</div>
       </div>
       <div class="gi r16-10">
         <!-- placeholder image 5 -->
         <img src="images/projects/u-turn/5.jpg" alt="U-Turn documentary subject">
-        <div class="gi-cap">5.jpg — Documentary Subject</div>
+        <div class="gi-cap">5.jpg — U-Turn</div>
       </div>
       <div class="gi r16-10">
         <!-- placeholder image 6 -->
         <img src="images/projects/u-turn/6.jpg" alt="U-Turn set">
-        <div class="gi-cap">6.jpg — On Location</div>
+        <div class="gi-cap">6.jpg — U-Turn</div>
       </div>
     </div>
   </div>
@@ -1912,12 +2003,12 @@ footer{
       <div class="gi r16-10">
         <!-- placeholder image 2 -->
         <img src="images/projects/tseppas-chocolate-ad/2.jpg" alt="Tseppas commercial BTS">
-        <div class="gi-cap">2.jpg — BTS</div>
+        <div class="gi-cap">2.jpg — Tseppas Ad</div>
       </div>
       <div class="gi r16-10">
         <!-- placeholder image 3 -->
         <img src="images/projects/tseppas-chocolate-ad/3.jpg" alt="Tseppas commercial VFX">
-        <div class="gi-cap">3.jpg — VFX Breakdown</div>
+        <div class="gi-cap">3.jpg — Tseppas Ad</div>
       </div>
     </div>
   </div>
@@ -2147,6 +2238,69 @@ const obs=new IntersectionObserver(entries=>{
   });
 },{threshold:.07});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Lightbox
+const galleryImgs = Array.from(document.querySelectorAll('#gallery .gi img'));
+const lightbox = document.getElementById('lightbox');
+const lbImg = document.getElementById('lbImg');
+const lbCaption = document.getElementById('lbCaption');
+const lbCounter = document.getElementById('lbCounter');
+const lbContent = document.getElementById('lbContent');
+let lbIndex = 0;
+
+function renderLightbox(dir){
+  const img = galleryImgs[lbIndex];
+  const cap = img.closest('.gi').querySelector('.gi-cap');
+  if(dir){
+    lbImg.style.transition = 'none';
+    lbImg.style.opacity = '0';
+    lbImg.style.transform = dir === 'next' ? 'translateX(18px)' : 'translateX(-18px)';
+    void lbImg.offsetWidth;
+    lbImg.style.transition = '';
+  }
+  lbImg.src = img.currentSrc || img.src;
+  lbImg.alt = img.alt || '';
+  lbCaption.textContent = cap ? cap.textContent : '';
+  lbCounter.textContent = (lbIndex + 1) + ' / ' + galleryImgs.length;
+  requestAnimationFrame(()=>{
+    lbImg.style.opacity = '1';
+    lbImg.style.transform = 'translateX(0)';
+  });
+}
+function openLightbox(i){
+  lbIndex = i;
+  renderLightbox();
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+}
+function lbNext(){ lbIndex = (lbIndex + 1) % galleryImgs.length; renderLightbox('next'); }
+function lbPrev(){ lbIndex = (lbIndex - 1 + galleryImgs.length) % galleryImgs.length; renderLightbox('prev'); }
+
+galleryImgs.forEach((img,i)=>img.addEventListener('click',()=>openLightbox(i)));
+document.getElementById('lbClose').onclick = closeLightbox;
+document.getElementById('lbBackdrop').onclick = closeLightbox;
+document.getElementById('lbNext').onclick = lbNext;
+document.getElementById('lbPrev').onclick = lbPrev;
+
+document.addEventListener('keydown', e=>{
+  if(!lightbox.classList.contains('open')) return;
+  if(e.key === 'Escape') closeLightbox();
+  if(e.key === 'ArrowRight') lbNext();
+  if(e.key === 'ArrowLeft') lbPrev();
+});
+
+// Swipe navigation (mobile)
+let lbTouchX = 0;
+lbContent.addEventListener('touchstart', e=>{ lbTouchX = e.touches[0].clientX; }, {passive:true});
+lbContent.addEventListener('touchend', e=>{
+  const dx = e.changedTouches[0].clientX - lbTouchX;
+  if(Math.abs(dx) > 40){ dx < 0 ? lbNext() : lbPrev(); }
+}, {passive:true});
+
 </script>
 </body>
 </html>
